@@ -10,6 +10,6 @@ void raspddns_close_log(FILE *file);
 
 int _bkp_logfile(const char *file);
 char * _get_current_date_string(char *dst, unsigned int len);
-struct tm * _getlocaltime(tm *_tm);
+struct tm * _getlocaltime(struct tm *_tm);
 
 #endif

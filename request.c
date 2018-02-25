@@ -2,6 +2,8 @@
 #include <libxml/tree.h>
 #include <libxml/parser.h>
 #include <string.h>
+#include <netdb.h>
+
 static unsigned int
 WriteMemoryCallback(void *contents, unsigned int size, unsigned int nmemb, void *userp);
 static int 
@@ -29,13 +31,17 @@ int init_info(domain_info_t *info)
     
     if( getdomainid(info) )
     {
+        printf("getdomainid failed!\n");
         return -1;
     }
     
     if( getrecordid(info) )
     {
+         printf("getrecordid failed!\n");
         return -1;
     }
+
+    return 0;
 }
 
 int update_record(domain_info_t *info)
@@ -190,6 +196,7 @@ int getdomainid(domain_info_t *info)
         
         if( fillinfo(info, &result) )
         {
+            printf("fillinfo error!\n");
             free_result(&result);
             return -1;
         }
@@ -275,6 +282,7 @@ int getrecordid(domain_info_t *info)
         
         if( fillinfo(info, &result) )
         {
+            printf("fillinfo 2 error!\n");
             free_result(&result);
             return -1;
         }
@@ -658,7 +666,7 @@ static int fillinfo(domain_info_t *info, const result_t *result)
     
     if( i == result->domain_num && i != 0 )
     {
-        printf("error: 域名记录%s没找到或状态错误，请查证\n", info->domain_name);
+         printf("error: domain name %s not found or status incorrect", info->domain_name);
         return -1;
     }
     
@@ -674,7 +682,7 @@ static int fillinfo(domain_info_t *info, const result_t *result)
     
     if( i == result->sub_domain_num && i != 0 )
     {
-        printf("error: 子域名记录%s没找到或状态错误，请查证\n", info->sub_domain_name);
+        printf("error: sub domain name %s not found or status incorrect", info->sub_domain_name);
         return -1;
     }
     
@@ -736,7 +744,7 @@ int getlocalip(char *ipbuffer, unsigned int len)
 
     {
 
-        perror("建立socket失败");
+        printf("error create socket\n");
 
         return -1;
 
@@ -746,7 +754,7 @@ int getlocalip(char *ipbuffer, unsigned int len)
 
     {
 
-        //perror(“connect failed!”);
+        printf("error connect socket\n");
 
         return -1;
 

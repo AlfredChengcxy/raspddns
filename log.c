@@ -1,4 +1,3 @@
-#include "log.h"
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <unistd.h>
@@ -7,6 +6,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <pthread.h>
+#include "log.h"
 
 static pthread_mutex_t log_mutex = PTHREAD_MUTEX_INITIALIZER;
 
@@ -89,7 +89,7 @@ int _bkp_logfile(const char *file)
 
 char * _get_current_date_string(char *dst, unsigned int len)
 {
-	tm nowtm = {0};
+	struct tm nowtm = {0};
 	if(!dst || len < strlen("yyyy-mm-dd HH:ii:ss") + 1 || NULL == _getlocaltime(&nowtm))
 	{
 		return NULL;
@@ -101,10 +101,10 @@ char * _get_current_date_string(char *dst, unsigned int len)
 	return dst;
 }
 
-tm * _getlocaltime(tm *_tm)
+struct tm * _getlocaltime(struct tm *_tm)
 {
 	time_t nowtm = 0;
-	tm *tmp = NULL;
+	struct tm *tmp = NULL;
 	if(!_tm || time(&nowtm) == -1)
 	{
 		return NULL;

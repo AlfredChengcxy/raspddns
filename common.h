@@ -1,5 +1,6 @@
 #ifndef _COMMON_H_
 #define _COMMON_H_ 1
+#include <stdio.h>
 
 typedef struct
 {

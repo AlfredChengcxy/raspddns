@@ -1,6 +1,3 @@
-#include "request.h"
-#include "common.h"
-#include "log.h"
 #include <unistd.h>
 #include <stdio.h>
 #include <string.h>
@@ -9,11 +6,16 @@
 #include <netinet/in.h>
 #include <sys/socket.h>
 #include <curl/curl.h>
+#include <time.h>
+#include "request.h"
+#include "common.h"
+#include "log.h"
 
 #define TIME_SLOT (5 * 60) //s
 
 int getlocalip(char *ipbuffer, unsigned int len);
 void dumpinfo(domain_info_t *info);
+FILE * log_stream = NULL;
 int main()
 {
 	
@@ -38,11 +40,11 @@ int main()
 		return -1;
 	}
 	
-	raspddns_append_log("raspddns start!");
+	raspddns_append_log(log_stream, "raspddns start!");
 	
     if( init_info(&domain_info) )
     {
-		raspddns_append_log("init domain info failed!");
+		raspddns_append_log(log_stream,"init domain info failed!");
         printf("init domain info failed!\n");
     }
     
@@ -54,7 +56,7 @@ int main()
     {
         if ( getlocalip(strip, 16) || strcmp(strip, domain_info.record ) == 0 )
         {
-            raspddns_append_log("记录没改变！");
+            raspddns_append_log(log_stream,"ip no change");
             sleep(TIME_SLOT);
             continue;
         }
@@ -68,7 +70,7 @@ int main()
                 sleep(TIME_SLOT);
                 continue;
             }
-            raspddns_append_log("update domain record failed!\n");
+            raspddns_append_log(log_stream,"update domain record failed!\n");
             break;
         }
 
