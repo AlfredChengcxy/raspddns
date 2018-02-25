@@ -2,7 +2,7 @@
 
 
 ##项目说明
-本项目是一个用c语言实现的在linux下通过dnspos 提供的api实现的一个动态域名解析工具，目标是在raspberry pi 下稳定运行
+本项目是一个用c语言实现的在linux下通过dnspod 提供的api实现的一个动态域名解析工具，目标是在raspberry pi 下稳定运行
 ----
 ##工程依赖：  
 1.libcurl  
