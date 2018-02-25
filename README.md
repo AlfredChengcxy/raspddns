@@ -13,4 +13,4 @@ raspberry pi 及 debian 系列使用 sudo apt-get install libcurl-dev libxml2-de
 
 ----
 ##编译方法：  
-  gcc -o raspddns ddns.c request.c -lcurl -lxml2 -I /usr/include/libxml2  
+  gcc -o raspddns ddns.c request.c log.c -lcurl -lxml2 -I /usr/include/libxml2  
